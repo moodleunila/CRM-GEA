@@ -24,7 +24,8 @@ public class LeadsController {
 	
 	
 	@RequestMapping(value = "/lead/nombre/{firstname}", method = RequestMethod.GET)
-	public List<Importacion> getLeadByNombre(@PathVariable String firstname) {
+	public List<Importacion> getLeadByNombre(@PathVariable String firstname) {	
+		this.vaciar();
 		leads = vtigerContactdetailsRepository.findByLikeFirstname(firstname);
 		this.generarImpotacion(leads);
 		return importaciones;
@@ -32,6 +33,7 @@ public class LeadsController {
 	
 	@RequestMapping(value = "/lead/nombre/{firstname}/{lastname}", method = RequestMethod.GET)
 	public List<Importacion> getLeadByNombre(@PathVariable String firstname, @PathVariable String lastname) {
+		this.vaciar();
 		leads = vtigerContactdetailsRepository.findByLikeFirstnameAndLastname(firstname, lastname);
 		this.generarImpotacion(leads);
 		return importaciones;
@@ -40,6 +42,7 @@ public class LeadsController {
 	
 	@RequestMapping(value = "/lead/email/{email}", method = RequestMethod.GET)
 	public List<Importacion> getLeadByEmail(@PathVariable String email) {
+		this.vaciar();
 		leads = vtigerContactdetailsRepository.findByLikeEmail(email);
 		this.generarImpotacion(leads);
 		return importaciones;
@@ -48,5 +51,10 @@ public class LeadsController {
 	public void generarImpotacion(List<VtigerContactdetails> leads) {
 		for(VtigerContactdetails contacto : leads)
 			importaciones.add(new Importacion(contacto, vtigerCf864Repository.findByPrograma(contacto.getVtigerContactscf().getCf872())));
+	}
+	
+	public void vaciar() {
+		this.leads.clear();
+		this.importaciones.clear();
 	}
 }
