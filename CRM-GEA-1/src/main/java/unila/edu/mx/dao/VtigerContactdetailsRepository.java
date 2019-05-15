@@ -20,6 +20,9 @@ public interface VtigerContactdetailsRepository extends JpaRepository<VtigerCont
 	@Query(value="Select * from vtiger_contactdetails c where c.firstname like %:firstname% AND c.lastname like %:lastname%", nativeQuery = true)
 	List<VtigerContactdetails> findByLikeFirstnameAndLastname(@Param("firstname")String firstname, @Param("lastname") String lastname);
 	
+	@Query(value="Select * from vtiger_contactdetails c where c.lastname like %:lastname%", nativeQuery = true)
+	List<VtigerContactdetails> findByLikeLastname(@Param("lastname") String lastname);
+	
 	@Query(value="Select * from vtiger_contactdetails c where c.email like %:email%", nativeQuery = true)
 	List<VtigerContactdetails> findByLikeEmail(@Param("email")String email);
 	

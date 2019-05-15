@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import unila.edu.mx.dao.VtigerCf864Repository;
 import unila.edu.mx.dao.VtigerContactdetailsRepository;
+import unila.edu.mx.enums.CompuestoNombres;
 import unila.edu.mx.model.Importacion;
 import unila.edu.mx.model.VtigerContactdetails;
 
@@ -23,21 +24,28 @@ public class LeadsController {
 	private List<Importacion> importaciones = new ArrayList<Importacion>(0);
 	
 	
-	@RequestMapping(value = "/lead/nombre/{firstname}", method = RequestMethod.GET)
-	public List<Importacion> getLeadByNombre(@PathVariable String firstname) {	
-		this.vaciar();
-		leads = vtigerContactdetailsRepository.findByLikeFirstname(firstname);
+	@RequestMapping(value = "/lead/nombre/{name}", method = RequestMethod.GET)
+	public List<Importacion> getLeadByNombre(@PathVariable String name) {		 
+		this.vaciar();					
+		String nombreCompuesto[] = name.split("-");		
+		if(nombreCompuesto.length > 0) {
+			if(nombreCompuesto.length == 1)			
+					leads = vtigerContactdetailsRepository.findByLikeFirstname(nombreCompuesto[CompuestoNombres.nombre.ordinal()]);		
+			else
+			{
+				if(nombreCompuesto[CompuestoNombres.nombre.ordinal()].equals(""))
+					leads = vtigerContactdetailsRepository.findByLikeLastname(nombreCompuesto[CompuestoNombres.aPaterno.ordinal()]);
+				else
+					leads = vtigerContactdetailsRepository.findByLikeFirstnameAndLastname(nombreCompuesto[CompuestoNombres.nombre.ordinal()], nombreCompuesto[CompuestoNombres.aPaterno.ordinal()]);
+			}
+		}
+		else {			
+			leads = vtigerContactdetailsRepository.findAll();			
+		}
 		this.generarImpotacion(leads);
 		return importaciones;
+			
 	}
-	
-	@RequestMapping(value = "/lead/nombre/{firstname}/{lastname}", method = RequestMethod.GET)
-	public List<Importacion> getLeadByNombre(@PathVariable String firstname, @PathVariable String lastname) {
-		this.vaciar();
-		leads = vtigerContactdetailsRepository.findByLikeFirstnameAndLastname(firstname, lastname);
-		this.generarImpotacion(leads);
-		return importaciones;
-	}	
 	
 	
 	@RequestMapping(value = "/lead/email/{email}", method = RequestMethod.GET)
