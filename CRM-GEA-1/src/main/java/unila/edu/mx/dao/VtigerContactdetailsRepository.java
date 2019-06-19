@@ -10,21 +10,25 @@ import unila.edu.mx.model.VtigerContactdetails;
 
 public interface VtigerContactdetailsRepository extends JpaRepository<VtigerContactdetails, Long>{
 	
+	VtigerContactdetails findByContactNo(String contactNo);
+	
 	List<VtigerContactdetails> findByFirstname (String firstname);
 	List<VtigerContactdetails> findByLastname (String lastname);
 	List<VtigerContactdetails> findByContactid (int contactid);
 	
-	@Query(value="Select * from vtiger_contactdetails c where c.firstname like %:firstname%", nativeQuery = true)
+	@Query(value="SELECT contacto.* FROM vtiger_contactdetails AS contacto INNER JOIN vtiger_contactsubdetails as sub ON sub.contactsubscriptionid = contacto.contactid INNER JOIN vtiger_contactscf as scf ON scf.contactid = contacto.contactid INNER JOIN vtiger_cf_858 as campus ON campus.cf_858 = scf.cf_868  INNER JOIN vtiger_crmentity as crm ON crm.crmid = contacto.contactid WHERE scf.cf_874 = '' AND crm.deleted = 0 AND  contacto.firstname like %:firstname%  AND scf.cf_866 IN ('Cita',  'Lead', 'Seguimiento', 'Preinscrito')", nativeQuery = true)
 	List<VtigerContactdetails> findByLikeFirstname(@Param("firstname")String firstname);
 	
-	@Query(value="Select * from vtiger_contactdetails c where c.firstname like %:firstname% AND c.lastname like %:lastname%", nativeQuery = true)
-	List<VtigerContactdetails> findByLikeFirstnameAndLastname(@Param("firstname")String firstname, @Param("lastname") String lastname);
-	
-	@Query(value="Select * from vtiger_contactdetails c where c.lastname like %:lastname%", nativeQuery = true)
+	@Query(value="SELECT contacto.* FROM vtiger_contactdetails AS contacto INNER JOIN vtiger_contactsubdetails as sub ON sub.contactsubscriptionid = contacto.contactid INNER JOIN vtiger_contactscf as scf ON scf.contactid = contacto.contactid INNER JOIN vtiger_cf_858 as campus ON campus.cf_858 = scf.cf_868  INNER JOIN vtiger_crmentity as crm ON crm.crmid = contacto.contactid WHERE scf.cf_874 = '' AND crm.deleted = 0 AND  contacto.lastname like %:lastname% AND scf.cf_866 IN ('Cita',  'Lead', 'Seguimiento', 'Preinscrito')", nativeQuery = true)
 	List<VtigerContactdetails> findByLikeLastname(@Param("lastname") String lastname);
 	
-	@Query(value="Select * from vtiger_contactdetails c where c.email like %:email%", nativeQuery = true)
-	List<VtigerContactdetails> findByLikeEmail(@Param("email")String email);
+	@Query(value="SELECT contacto.* FROM vtiger_contactdetails AS contacto INNER JOIN vtiger_contactsubdetails as sub ON sub.contactsubscriptionid = contacto.contactid INNER JOIN vtiger_contactscf as scf ON scf.contactid = contacto.contactid INNER JOIN vtiger_cf_858 as campus ON campus.cf_858 = scf.cf_868  INNER JOIN vtiger_crmentity as crm ON crm.crmid = contacto.contactid WHERE scf.cf_874 = '' AND crm.deleted = 0 AND  contacto.lastname like %:paterno% AND contacto.lastname like %:materno%  AND scf.cf_866 IN ('Cita',  'Lead', 'Seguimiento', 'Preinscrito')", nativeQuery = true)
+	List<VtigerContactdetails> findByLikeLastname(@Param("paterno")String paterno, @Param("materno") String materno);
 	
+	@Query(value="SELECT contacto.* FROM vtiger_contactdetails AS contacto INNER JOIN vtiger_contactsubdetails as sub ON sub.contactsubscriptionid = contacto.contactid INNER JOIN vtiger_contactscf as scf ON scf.contactid = contacto.contactid INNER JOIN vtiger_cf_858 as campus ON campus.cf_858 = scf.cf_868  INNER JOIN vtiger_crmentity as crm ON crm.crmid = contacto.contactid WHERE scf.cf_874 = '' AND crm.deleted = 0 AND  contacto.firstname like %:firstname% AND contacto.lastname like %:lastname% AND scf.cf_866 IN ('Cita',  'Lead', 'Seguimiento', 'Preinscrito')", nativeQuery = true)
+	List<VtigerContactdetails> findByLikeFirstnameAndLastname(@Param("firstname")String firstname, @Param("lastname") String lastname);
+	
+	@Query(value="SELECT contacto.* FROM vtiger_contactdetails AS contacto INNER JOIN vtiger_contactsubdetails as sub ON sub.contactsubscriptionid = contacto.contactid INNER JOIN vtiger_contactscf as scf ON scf.contactid = contacto.contactid INNER JOIN vtiger_cf_858 as campus ON campus.cf_858 = scf.cf_868  INNER JOIN vtiger_crmentity as crm ON crm.crmid = contacto.contactid WHERE scf.cf_874 = '' AND crm.deleted = 0 AND  contacto.firstname like %:firstname% AND contacto.lastname like %:paterno% AND contacto.lastname like %:materno% AND scf.cf_866 IN ('Cita',  'Lead', 'Seguimiento', 'Preinscrito')" , nativeQuery = true)
+	List<VtigerContactdetails> findByLikeFirstnameAndLastname(@Param("firstname")String firstname, @Param("paterno") String paterno, @Param("materno") String materno);	
 }
 

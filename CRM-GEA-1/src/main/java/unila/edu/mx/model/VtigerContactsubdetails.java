@@ -24,11 +24,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
     ,catalog="vtiger"
 )
 public class VtigerContactsubdetails  implements java.io.Serializable {
+	
 
-
-     /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int contactsubscriptionid;
 	@JsonIgnore

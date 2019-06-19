@@ -36,6 +36,7 @@ public class VtigerContactscf  implements java.io.Serializable {
 	private String cf866;
 	private String cf868;
 	private String cf872;
+	private String cf874;
 
  public VtigerContactscf() {
  }
@@ -44,11 +45,12 @@ public class VtigerContactscf  implements java.io.Serializable {
  public VtigerContactscf(VtigerContactdetails vtigerContactdetails) {
      this.vtigerContactdetails = vtigerContactdetails;
  }
- public VtigerContactscf(VtigerContactdetails vtigerContactdetails, String cf866, String cf868, String cf872) {
+ public VtigerContactscf(VtigerContactdetails vtigerContactdetails, String cf866, String cf868, String cf872, String cf874) {
     this.vtigerContactdetails = vtigerContactdetails;
     this.cf866 = cf866;
     this.cf868 = cf868;
     this.cf872 = cf872;
+    this.cf874 = cf874;
  }
 
   @GenericGenerator(name="generator", strategy="foreign", parameters=@Parameter(name="property", value="vtigerContactdetails"))@Id @GeneratedValue(generator="generator")
@@ -103,7 +105,14 @@ public class VtigerContactscf  implements java.io.Serializable {
  }
 
 
-
+ @Column(name="cf_874")
+ public String getCf874() {
+     return this.cf874;
+ }
+ 
+ public void setCf874(String cf874) {
+     this.cf874 = cf874;
+ }
 
 }
 
